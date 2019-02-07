@@ -10,12 +10,9 @@ RUN yum update -y && yum install -y epel-release \
     rpmdevtools \
     omniORB-devel \
     zeromq-devel \
-    wget \
- && wget --no-check-certificate https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh -O /tmp/cmake-install.sh \
- && chmod +x /tmp/cmake-install.sh \
- && /tmp/cmake-install.sh --skip-license --exclude-subdir \
+    cmake3 \
  && groupadd -g "$APP_GID" tango \
- && useradd -u "$APP_UID" -g "$APP_GID" -ms /bin/bash tango \
+ && useradd -u "$APP_UID" -g "$APP_GID" -ms /bin/sh tango \
  # create folder structure for building rpms
  && su tango -c 'rpmdev-setuptree' \
  # cleanup
