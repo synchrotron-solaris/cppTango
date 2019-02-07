@@ -11,6 +11,8 @@ RUN yum update -y && yum install -y epel-release \
     omniORB-devel \
     zeromq-devel \
     cmake3 \
+ # link cmake3
+ && ln -s /usr/bin/cmake3 /usr/bin/cmake \
  && groupadd -g "$APP_GID" tango \
  && useradd -u "$APP_UID" -g "$APP_GID" -ms /bin/sh tango \
  # create folder structure for building rpms
