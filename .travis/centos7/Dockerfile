@@ -10,16 +10,17 @@ RUN yum update -y && yum install -y epel-release \
     rpmdevtools \
     omniORB-devel \
     zeromq-devel \
-    cmake \
- # add user for building
- && useradd builder \
+    wget \
+ && wget --no-check-certificate https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.sh -O /tmp/cmake-install.sh \
+ && chmod +x /tmp/cmake-install.sh \
+ && /tmp/cmake-install.sh --skip-license --exclude-subdir \
+ && groupadd -g "$APP_GID" tango \
+ && useradd -u "$APP_UID" -g "$APP_GID" -ms /bin/bash tango \
  # create folder structure for building rpms
- && su builder -c 'rpmdev-setuptree' \
+ && su tango -c 'rpmdev-setuptree' \
  # cleanup
  && yum clean all \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/yum/* \
- && groupadd -g "$APP_GID" tango \
- && useradd -u "$APP_UID" -g "$APP_GID" -ms /bin/bash tango
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/yum/*
 
 ENV PKG_CONFIG_PATH=/home/tango/lib/pkgconfig
 USER tango
